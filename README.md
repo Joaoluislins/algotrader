@@ -1,3 +1,3 @@
 # Algotrader
 
-![Image0](data_flow.jpeg)
+![Image0](algotrader_flow.jpeg)
