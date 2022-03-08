@@ -13,3 +13,5 @@ The deploy of the model is going to be made in AWS.
 Project built by personal motivation. Accompanied by the mentors of the Data Engineering bootcamp at [How Bootcamps](https://howedu.com.br/cohort/engenharia-de-dados/?gclid=Cj0KCQiAmpyRBhC-ARIsABs2EAqENMpiYYuGn9bKLYI-btMdAS8R3be_UNzxraVEg4tDxT1Rkka8vRAaAsG5EALw_wcB).
 <br />
 
+I'm first developing a working stage of the project on colab to then gradually, and while learning, move it to AWS in order to simulate a production environment.
+
