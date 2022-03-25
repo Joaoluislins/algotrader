@@ -15,7 +15,6 @@ The deploy of the model is going to be made in AWS and it's going to be orchestr
 Project built by personal motivation. Accompanied by mentors of the Data Engineering bootcamp at [How Bootcamps](https://howedu.com.br/cohort/engenharia-de-dados/?gclid=Cj0KCQiAmpyRBhC-ARIsABs2EAqENMpiYYuGn9bKLYI-btMdAS8R3be_UNzxraVEg4tDxT1Rkka8vRAaAsG5EALw_wcB).
 <br />
 
-IAC built on top of [André Sionek's repository](https://github.com/andresionek91/airflow-autoscaling-ecs)
 
 
 
