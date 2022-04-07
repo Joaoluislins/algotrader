@@ -10,7 +10,7 @@ The deploy of the model is going to be made in AWS and it's going to be orchestr
 <br />
 <br />
 
-*I'm first developing a working stage of the project on colab to then gradually, and while learning, move it to AWS in order to simulate a production environment.*
+*I'm first developing a working stage of the project on colab to then gradually, while learning, move it to AWS in order to simulate a production environment. The current terraform script is already able to automatically build an airflow client on an AWS EC2 instance*
 
 Project built by personal motivation. Accompanied by mentors of the Data Engineering bootcamp at [How Bootcamps](https://howedu.com.br/cohort/engenharia-de-dados/?gclid=Cj0KCQiAmpyRBhC-ARIsABs2EAqENMpiYYuGn9bKLYI-btMdAS8R3be_UNzxraVEg4tDxT1Rkka8vRAaAsG5EALw_wcB).
 <br />
