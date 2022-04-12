@@ -15,7 +15,7 @@ class DataWriter:
     #print(os.getcwd())
     #os.chdir('/opt/***')
     print(os.getcwd())
-    os.chdir('outputs/')
+    os.chdir('/home/ec2-user/outputs/')
     print(os.getcwd())
     if not os.path.isdir(f"timelines/{self.user_id}/"):
       os.makedirs(os.path.dirname(f"timelines/{self.user_id}/"), exist_ok = True)
