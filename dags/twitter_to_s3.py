@@ -1,7 +1,7 @@
 # DAG to ingest user's timeline from twitter to am aws s3 instance.
 
 # Importing modules and libraries
-import airflowa
+import airflow
 from airflow import DAG
 from airflow.operators.python import PythonOperator, PythonVirtualenvOperator
 from datetime import datetime, timedelta
