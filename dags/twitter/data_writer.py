@@ -20,8 +20,8 @@ class DataWriter:
     if not os.path.isdir(f"timelines/{self.user_id}/"):
       os.makedirs(os.path.dirname(f"timelines/{self.user_id}/"), exist_ok = True)
     #path = f"timelines/{self.user_id}/"
-    os.chdir(path)
-    print(os.getcwd())
+    #os.chdir(path)
+    #print(os.getcwd())
     with open(f"timelines/{self.user_id}/{self.filename}", 'a') as f:
       for item in data['data']:
         #print(type(item))
