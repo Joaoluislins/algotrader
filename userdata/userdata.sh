@@ -50,6 +50,7 @@ echo -e "dags/" >> .gitignore
 echo -e "logs/" >> .gitignore
 echo -e "plugins/" >> .gitignore
 echo -e "linux-git-install.txt" >> .gitignore
+sudo chown -R ec2-user:ec2-user .
 /usr/local/bin/docker-compose up airflow-init 
 /usr/local/bin/docker-compose up -d 
 
