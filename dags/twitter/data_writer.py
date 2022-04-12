@@ -15,14 +15,14 @@ class DataWriter:
     #print(os.getcwd())
     #os.chdir('/opt/***')
     print(os.getcwd())
-    os.chdir('/home/ec2-user/outputs/')
-    print(os.getcwd())
-    if not os.path.isdir(f"timelines/{self.user_id}/"):
-      os.makedirs(os.path.dirname(f"timelines/{self.user_id}/"), exist_ok = True)
+    #os.chdir('/home/ec2-user/outputs/')
+    #print(os.getcwd())
+    if not os.path.isdir(f"/opt/airflow/outputs/timelines/{self.user_id}/"):
+      os.makedirs(os.path.dirname(f"/opt/airflow/outputs/timelines/{self.user_id}/"), exist_ok = True)
     #path = f"timelines/{self.user_id}/"
     #os.chdir(path)
     #print(os.getcwd())
-    with open(f"timelines/{self.user_id}/{self.filename}", 'a') as f:
+    with open(f"/opt/airflow/outputs/timelines/{self.user_id}/{self.filename}", 'a') as f:
       for item in data['data']:
         #print(type(item))
         #print(item)
