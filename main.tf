@@ -25,7 +25,7 @@ module "vpc" {
 #}
 
 data "template_file" "airflow_user_data" {
-  template = "${file("${path.module}/files/userdata.sh")}"
+  template = "${file("${path.module}/userdata/userdata.sh")}"
   vars = {
            AWS_ID = "${var.AWS_ID}"
            AWS_KEY = "${var.AWS_KEY}"
