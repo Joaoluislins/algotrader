@@ -44,7 +44,7 @@ echo -e "sync_password=senhateste" >> outputs/.env
 echo -e "AWS_ID=${AWS_ID}" >> outputs/.env
 echo -e "AWS_KEY=${AWS_KEY}" >> outputs/.env
 echo -e ".idea/" > .gitignore
-echo -e ".vscode-server/" >> .gitignorea
+echo -e ".vscode-server/" >> .gitignore
 echo -e ".env" >> .gitignore
 echo -e "dags/" >> .gitignore
 echo -e "logs/" >> .gitignore
