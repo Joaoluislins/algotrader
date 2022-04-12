@@ -51,6 +51,7 @@ echo -e "logs/" >> .gitignore
 echo -e "plugins/" >> .gitignore
 echo -e "linux-git-install.txt" >> .gitignore
 sudo chown -R ec2-user:ec2-user .
+sudo chmod 666 /var/run/docker.sock 
 /usr/local/bin/docker-compose up airflow-init 
 /usr/local/bin/docker-compose up -d 
 
