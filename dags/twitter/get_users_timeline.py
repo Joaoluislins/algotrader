@@ -1,5 +1,9 @@
 from twitter.twitter_api import TwitterAPI
 import logging
+import requests
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level = logging.INFO)
 # Creating a specific class to interact with get_users_timeline endpoint.
 
 class GetUserTimeline(TwitterAPI):

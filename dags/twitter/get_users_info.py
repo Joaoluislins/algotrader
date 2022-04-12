@@ -1,5 +1,6 @@
 from twitter.twitter_api import TwitterAPI
 import logging
+import requests
 # Creating a specific class to interact with get_users_id endpoint.
 logger = logging.getLogger(__name__)
 logging.basicConfig(level = logging.INFO)

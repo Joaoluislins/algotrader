@@ -6,6 +6,7 @@ from botocore import exceptions
 from botocore.exceptions import ClientError
 import boto3
 import logging
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level = logging.INFO)

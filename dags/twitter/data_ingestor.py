@@ -1,6 +1,7 @@
 #Creating a general class to ingest data
 from abc import ABC,abstractmethod
 from twitter.data_writer import DataWriter
+import os
 
 class DataIngestor(ABC):
 
