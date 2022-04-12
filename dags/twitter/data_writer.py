@@ -13,6 +13,8 @@ class DataWriter:
   def _write_row(self, data: dict) -> None:
     #os.makedirs(os.path.dirname(self.filename), exist_ok = True)
     print(os.getcwd())
+    os.chdir('/opt/')
+    print(os.getcwd())
     os.chdir('outputs/')
     print(os.getcwd())
     if not os.path.isdir(f"timelines/{self.user_id}/"):
