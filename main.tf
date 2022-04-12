@@ -15,19 +15,20 @@ module "vpc" {
   enable_dns_hostnames = true
 }
 
-variable "AWS_ID" {
-  type = string
-}
-
-variable "AWS_KEY" {
-  type = string
-}
+#variable "AWS_ID" {
+#  type = string
+#}
+#
+#variable "AWS_KEY" {
+#  type = string
+#  default
+#}
 
 data "template_file" "airflow_user_data" {
   template = "${file("${path.module}/files/userdata.sh")}"
   vars = {
-           AWS_ID = "${env.AWS_ID}"
-           AWS_KEY = "${env.AWS_KEY}"
+           AWS_ID = "${var.AWS_ID}"
+           AWS_KEY = "${var.AWS_KEY}"
 }
 }
 
