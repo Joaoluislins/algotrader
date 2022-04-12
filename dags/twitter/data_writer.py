@@ -12,10 +12,10 @@ class DataWriter:
 
   def _write_row(self, data: dict) -> None:
     #os.makedirs(os.path.dirname(self.filename), exist_ok = True)
-    os.chdir('/opt/airflow/outputs')
-    if not os.path.isdir(f"timelines/{self.user_id}/"):
-      os.makedirs(os.path.dirname(f"timelines/{self.user_id}/"), exist_ok = True)
-    path = f"timelines/{self.user_id}/" 
+    os.chdir('outputs/')
+    if not os.path.isdir(f"/timelines/{self.user_id}/"):
+      os.makedirs(os.path.dirname(f"/timelines/{self.user_id}/"), exist_ok = True)
+    path = f"/timelines/{self.user_id}/" 
     os.chdir(path)
     with open(self.filename, 'a') as f:
       for item in data['data']:
