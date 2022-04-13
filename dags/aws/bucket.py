@@ -64,12 +64,10 @@ class Bucket(ABC):
         rootdir = r'/opt/airflow/outputs/timelines'
         for subdir, dirs, files in os.walk(rootdir):
             for file in files:
-                print(os.path.join(subdir, file))
-                print(str(os.path.join(subdir, file)).split(sep = '/')[-1])
-                print(str(file))
                 path_str = str(os.path.join(subdir, file))
                 file_str = path_str.split(sep = '/')[-1]
+                user_id = path_str.split(sep = '/')[-2]
                 self.s3_resource.Bucket(self.bucket_name).upload_file(
                     path_str,
-                    f'airflow/dados/input/twitter/{sending_datetime}/{file_str}'
+                    f'airflow/dados/twitter_timelines/{sending_datetime}/{user_id}/{file_str}'
             )
