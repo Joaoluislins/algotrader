@@ -1,6 +1,7 @@
 # Creating an aws client to manage bucket resources
 from dotenv import load_dotenv
 from os import getenv
+import os
 from abc import ABC, abstractmethod
 from botocore import exceptions
 from botocore.exceptions import ClientError
@@ -58,11 +59,17 @@ class Bucket(ABC):
             print(f'Bucket "{self.bucket_name}" already existed (and operational?)')
 
 
-    def send_to_bucket(self) -> None:
+    def send_to_bucket(self, **kwargs) -> None:
         sending_datetime = datetime.now().strftime("%Y%m%d_%H%S%S")
-        self.s3_resource.Bucket(self.bucket_name).upload_file(
-            f'/opt/airflow/outputs/timelines/{ingestor.user_id}/{ingestor.writer.filename}',
-            f'airflow/dados/input/twitter_{sending_datetime}_{ingestor.writer.filename}'
-        )
-
-
+        rootdir = r'/opt/airflow/outputs/timelines'
+        for subdir, dirs, files in os.walk(rootdir):
+            for file in files:
+                print(os.path.join(subdir, file))
+                print(str(os.path.join(subdir, file)).split(sep = '/')[-1])
+                print(str(file))
+                path_str = str(os.path.join(subdir, file))
+                file_str = path_str.split(sep = '/')[-1]
+                self.s3_resource.Bucket(self.bucket_name).upload_file(
+                    path_str,
+                    f'airflow/dados/input/twitter/{sending_datetime}/{file_str}'
+            )
