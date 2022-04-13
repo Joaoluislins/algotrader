@@ -21,9 +21,12 @@ class TimelineIngestor(DataIngestor):
 
       api = GetUserTimeline(pagination_token = pagination_token, user_id = self.user_id)
       data = api.get_data()
-      self.writer(api_type = 'timeline', user_id = self.user_id).write(data) #Writing the data in the file 
-      self._update_checkpoint(data['meta']['next_token'], self.user_id) # updating the checkpoint file
-      print('Saved data from pagination token:', data['meta']['next_token']) 
+      self.writer(api_type = 'timeline', user_id = self.user_id).write(data) #Writing the data in the file
+      try:
+          self._update_checkpoint(data['meta']['next_token'], user_id = self.user_id) # updating the checkpoint file
+          print('Saved data from pagination token:', data['meta']['next_token']) 
+      except KeyError:
+          break 
 
 
       while (data['meta']['next_token']): #Getting the remaining pages
