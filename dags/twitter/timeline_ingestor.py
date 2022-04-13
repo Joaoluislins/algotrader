@@ -26,7 +26,7 @@ class TimelineIngestor(DataIngestor):
           self._update_checkpoint(data['meta']['next_token'], user_id = self.user_id) # updating the checkpoint file
           print('Saved data from pagination token:', data['meta']['next_token']) 
       except KeyError:
-          pass 
+          continue 
 
 
       while (data['meta']['next_token']): #Getting the remaining pages
