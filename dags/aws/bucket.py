@@ -12,7 +12,7 @@ from datetime import datetime
 logger = logging.getLogger(__name__)
 logging.basicConfig(level = logging.INFO)
 
-load_dotenv('/opt/airflow/aws_env/.env')
+load_dotenv('/opt/airflow/aws_twi_env/.env')
 
 class Bucket(ABC):
     def __init__(self, bucket_name) -> None:

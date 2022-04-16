@@ -1,9 +1,13 @@
 from twitter.twitter_api import TwitterAPI
 import logging
 import requests
+from dotenv import load_dotenv
+from os import getenv
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level = logging.INFO)
+
+load_dotenv('/opt/airflow/aws_twi_env/.env')
 # Creating a specific class to interact with get_users_timeline endpoint.
 
 class GetUserTimeline(TwitterAPI):
@@ -11,7 +15,7 @@ class GetUserTimeline(TwitterAPI):
     self.type_of_endpoint = "users/{}/tweets"
     self.user_id = user_id
     self.pagination_token = pagination_token
-    self.bearer_token = bearer_token = 'AAAAAAAAAAAAAAAAAAAAAC%2FDXwEAAAAA9cRKYp%2BeJLKXLsw3Pz19AM8ES9k%3DABCDS8iSV8Yb1qOUwgZAK1SonZHkABJeECSH7aRSLqyy26qQCU'## encript this call
+    self.bearer_token = bearer_token = getenv('BEARER_TOKEN')
     super().__init__(**kwargs)
 
 

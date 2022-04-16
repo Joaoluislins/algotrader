@@ -49,8 +49,8 @@ x-airflow-common:
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
-    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${DB_USER}:${DB_PASS}@${DB_ENDPOINT}/airflow
+    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://${DB_USER}:${DB_PASS}@${DB_ENDPOINT}/airflow
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
@@ -62,31 +62,31 @@ x-airflow-common:
     - ./logs:/opt/airflow/logs
     - ./plugins:/opt/airflow/plugins
     - ./outputs:/opt/airflow/outputs
-    - ./aws_env:/opt/airflow/aws_env
+    - ./aws_twi_env:/opt/airflow/aws_twi_env
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
     redis:
       condition: service_healthy
-    postgres:
-      condition: service_healthy
+   #postgres:
+   #  condition: service_healthy
     git-sync:
       condition: service_started
 
 services:
-  postgres:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: airflow
-      POSTGRES_PASSWORD: airflow
-      POSTGRES_DB: airflow
-    volumes:
-      - postgres-db-volume:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "airflow"]
-      interval: 5s
-      retries: 5
-    restart: always
+  #postgres:
+  #  image: postgres:13
+  #  environment:
+  #    POSTGRES_USER: airflow
+  #    POSTGRES_PASSWORD: airflow
+  #    POSTGRES_DB: airflow
+  #  volumes:
+  #    - postgres-db-volume:/var/lib/postgresql/data
+  #  healthcheck:
+  #    test: ["CMD", "pg_isready", "-U", "airflow"]
+  #    interval: 5s
+  #    retries: 5
+  #  restart: always
 
   redis:
     image: redis:latest

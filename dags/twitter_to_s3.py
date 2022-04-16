@@ -30,7 +30,7 @@ logging.basicConfig(level = logging.INFO)
 # Defining the usernames that will be crawled and instanting classes
 usernames = ['cafecomferri', 'FariaLimaElevat', 'helocruz']
 ingestor = TimelineIngestor(writer = twitter.data_writer.DataWriter, usernames = usernames)
-bucket_client = Bucket('twitter-timelines-joao')
+bucket_client = Bucket('algotrader-joao')
 
 # Default arguments for the DAG
 args = {

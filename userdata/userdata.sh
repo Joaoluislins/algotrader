@@ -37,11 +37,15 @@ git fetch
 git checkout -m origin/main docker-compose.yaml 
 
 echo "building airflow client"
-mkdir -p ./logs ./plugins ./outputs ./aws_env
+mkdir -p ./logs ./plugins ./outputs ./aws_twi_env
 echo -e "AIRFLOW_UID=$(id -u)" > .env
 echo -e "AIRFLOW_GID=0" >> .env
-echo -e "AWS_ID=${AWS_ID}" > ./aws_env/.env
-echo -e "AWS_KEY=${AWS_KEY}" >> ./aws_env/.env
+echo -e "DB_ENDPOINT=${DB_ENDPOINT}" >> .env
+echo -e "DB_USER=airflow" >> .env
+echo -e "DB_PASS=${db_password}" >> .env
+echo -e "AWS_ID=${AWS_ID}" > ./aws_twi_env/.env
+echo -e "AWS_KEY=${AWS_KEY}" >> ./aws_twi_env/.env
+echo -e "BEARER_TOKEN=${BEARER_TOKEN}" >> ./aws_twi_env/.env
 echo -e ".idea/" > .gitignore
 echo -e ".vscode-server/" >> .gitignore
 echo -e ".env" >> .gitignore

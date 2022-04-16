@@ -1,6 +1,11 @@
 from twitter.twitter_api import TwitterAPI
 import logging
 import requests
+from dotenv import load_dotenv
+from os import getenv
+
+load_dotenv('/opt/airflow/aws_twi_env/.env')
+
 # Creating a specific class to interact with get_users_id endpoint.
 logger = logging.getLogger(__name__)
 logging.basicConfig(level = logging.INFO)
@@ -12,7 +17,7 @@ class GetUsersInfo(TwitterAPI):
     self.usernames = "usernames={}".format(','.join(self.names))
     self.type_of_endpoint = 'users/by?{}&{}' #Specific to get users_id
     self.user_fields = user_fields = "user.fields=description,created_at,id"
-    self.bearer_token = bearer_token = 'AAAAAAAAAAAAAAAAAAAAAC%2FDXwEAAAAA9cRKYp%2BeJLKXLsw3Pz19AM8ES9k%3DABCDS8iSV8Yb1qOUwgZAK1SonZHkABJeECSH7aRSLqyy26qQCU' 
+    self.bearer_token = bearer_token = getenv('BEARER_TOKEN') 
     #self.bearer_oauth = bearer_oauth
     super().__init__(**kwargs)
 

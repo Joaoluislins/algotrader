@@ -27,9 +27,16 @@ module "vpc" {
 data "template_file" "airflow_user_data" {
   template = "${file("${path.module}/userdata/userdata.sh")}"
   vars = {
-           AWS_ID = "${var.AWS_ID}"
-           AWS_KEY = "${var.AWS_KEY}"
-}
+    DB_ENDPOINT = aws_db_instance.airflow-database.endpoint
+    AWS_ID = "${var.AWS_ID}"
+    AWS_KEY = "${var.AWS_KEY}"
+    db_password = "${var.db_password}"
+    BEARER_TOKEN = "${var.bearer_token}"
+  }
+  #depends_on = [
+  #  aws_instance.airflow_instance,
+  #  aws_db_instance.airflow-database,
+  #]
 }
 
 #data "template_file" "airflow_config" {
@@ -72,60 +79,63 @@ resource "aws_instance" "airflow_instance" {
   #}
 
   user_data  = "${data.template_file.airflow_user_data.rendered}"
+  depends_on = [
+    aws_instance.airflow_instance,
+    aws_db_instance.airflow-database,
+  ]
 }
 
 
-#resource "aws_db_instance" "airflow-database" {
-#  identifier                = "airflow-database"
-#  allocated_storage         = 20
-#  engine                    = "postgres"
-#  #engine_version            = "9.6.6"
-#  instance_class            = "db.t3.micro"
-#  db_name                   = "airflow"
-#  username                  = "airflow"
-#  password                  = "${var.db_password}"
-#  storage_type              = "gp2"
-#  backup_retention_period   = 14
-#  multi_az                  = false
-#  publicly_accessible       = false
-#  apply_immediately         = true
-#  db_subnet_group_name      = "${aws_db_subnet_group.airflow_subnetgroup.name}"
-#  final_snapshot_identifier = "airflow-database-final-snapshot-1"
-#  skip_final_snapshot       = false
-#  vpc_security_group_ids    = [ "${aws_security_group.allow_airflow_database.id}"]
-#  port                      = "5432"
-#}
+resource "aws_db_instance" "airflow-database" {
+  identifier                = "airflow-database"
+  allocated_storage         = 20
+  engine                    = "postgres"
+  #engine_version            = "9.6.6"
+  instance_class            = "db.t3.micro"
+  db_name                   = "airflow"
+  username                  = "airflow"
+  password                  = "${var.db_password}"
+  storage_type              = "gp2"
+  backup_retention_period   = 14
+  multi_az                  = false
+  publicly_accessible       = false
+  apply_immediately         = true
+  db_subnet_group_name      = "${aws_db_subnet_group.airflow_subnetgroup.name}"
+  final_snapshot_identifier = "airflow-database-final-snapshot-1"
+  skip_final_snapshot       = true
+  vpc_security_group_ids    = [ "${aws_security_group.allow_airflow_database.id}"]
+  port                      = "5432"
+}
+resource "aws_db_subnet_group" "airflow_subnetgroup" {
+  name        = "airflow-database-subnetgroup"
+  description = "airflow database subnet group"
+  subnet_ids  = [ "${module.vpc.public_subnets[0]}", "${module.vpc.public_subnets[1]}" ] ## colocar brackets e listar uma a um
+}
 
-#resource "aws_db_subnet_group" "airflow_subnetgroup" {
-#  name        = "airflow-database-subnetgroup"
-#  description = "airflow database subnet group"
-#  subnet_ids  = [ "${module.vpc.public_subnets[0]}", "${module.vpc.public_subnets[1]}" ] ## colocar brackets e listar uma a um
-#}
-#
-#resource "aws_security_group" "allow_airflow_database" {
-#  name        = "allow_airflow_database"
-#  description = "Controlling traffic to and from airflows rds instance."
-#  vpc_id      = "${module.vpc.vpc_id}"
-#
-#  egress {
-#    from_port   = 0
-#    to_port     = 0
-#    protocol    = "-1"
-#    cidr_blocks = ["0.0.0.0/0"]
-#  }
-#}
-#
-#resource "aws_security_group_rule" "allow_airflow_database" {
-#  security_group_id = "${aws_security_group.allow_airflow_database.id}"
-#  type              = "ingress"
-#  from_port         = 5432
-#  to_port           = 5432
-#  protocol          = "tcp"
-#
-#  cidr_blocks = [
-#    "${aws_instance.airflow_instance.private_ip}/32"
-#  ]
-#}
+resource "aws_security_group" "allow_airflow_database" {
+  name        = "allow_airflow_database"
+  description = "Controlling traffic to and from airflows rds instance."
+  vpc_id      = "${module.vpc.vpc_id}"
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group_rule" "allow_airflow_database" {
+  security_group_id = "${aws_security_group.allow_airflow_database.id}"
+  type              = "ingress"
+  from_port         = 5432
+  to_port           = 5432
+  protocol          = "tcp"
+
+  cidr_blocks = [
+    "${aws_instance.airflow_instance.private_ip}/32"
+  ]
+}
 
 resource "aws_security_group" "airflow-security-group" {
   name        = "security_group_airflow"
@@ -170,4 +180,9 @@ output "airflow_instance_private_ip" {
 output "airflow_instance_public_ip" {
   value       = "${aws_instance.airflow_instance.public_ip}"
   description = "Public IP address for the Airflow instance"
+}
+
+output "airflow_db_public_ip" {
+  value       = "${aws_db_instance.airflow-database.endpoint}"
+  description = "Endpoint address for the Airflow instance"
 }
