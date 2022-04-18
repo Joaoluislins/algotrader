@@ -1,4 +1,4 @@
-# DAG to ingest user's timeline from twitter to am aws s3 instance.
+# DAG to teste webdriver
 
 # Importing modules and libraries
 import airflow
@@ -17,18 +17,17 @@ import ratelimit
 import logging
 from traitlets.traitlets import Union
 from aws.bucket import Bucket
-import twitter
-from twitter.timeline_ingestor import TimelineIngestor
+from technical_data.teste import WebdriverIngestor
 
 
 # Configuring Logging
 logger = logging.getLogger(__name__)
 logging.basicConfig(level = logging.INFO)
 
-# Defining the usernames that will be crawled and instanting classes
-usernames = ['cafecomferri', 'FariaLimaElevat', 'helocruz']
-ingestor = TimelineIngestor(writer = twitter.data_writer.DataWriter, usernames = usernames)
-bucket_client = Bucket('algotrader-joao')
+# Defining the sites that will be crawled and instanting classes
+
+driver = WebdriverIngestor()
+#bucket_client = Bucket('algotrader-joao')
 
 # Default arguments for the DAG
 args = {
@@ -38,29 +37,18 @@ args = {
 
 # Creating the DAG and it's tasks
 dag = DAG(
-    dag_id='twitter_to_s3',
+    dag_id='test_ingest_from_google',
     default_args=args,
     schedule_interval=None,
     dagrun_timeout=timedelta(minutes=1)
 )
 
 t1 = PythonOperator(
-    task_id='ingest_twitter_to_ec2',
-    python_callable=ingestor.ingest,
+    task_id='test_ingest_from_google',
+    python_callable=driver.ingest,
     dag=dag
 )
 
-t2 = PythonOperator(
-    task_id='start_bucket',
-    python_callable=bucket_client.start_bucket,
-    dag=dag
-)
-
-t3 = PythonOperator(
-    task_id='send_twitter_data_to_bucket',
-    python_callable=bucket_client.send_to_bucket,
-    dag=dag
-)
 
 # Task's order
-t1 >> t2 >> t3
+t1
