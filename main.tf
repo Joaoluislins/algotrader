@@ -15,40 +15,6 @@ module "vpc" {
   enable_dns_hostnames = true
 }
 
-#variable "AWS_ID" {
-#  type = string
-#}
-#
-#variable "AWS_KEY" {
-#  type = string
-#  default
-#}
-
-data "template_file" "airflow_user_data" {
-  template = "${file("${path.module}/userdata/userdata.sh")}"
-  vars = {
-    DB_ENDPOINT = aws_db_instance.airflow-database.endpoint
-    AWS_ID = "${var.AWS_ID}"
-    AWS_KEY = "${var.AWS_KEY}"
-    db_password = "${var.db_password}"
-    BEARER_TOKEN = "${var.bearer_token}"
-  }
-  #depends_on = [
-  #  aws_instance.airflow_instance,
-  #  aws_db_instance.airflow-database,
-  #]
-}
-
-#data "template_file" "airflow_config" {
-#  template = "${file("${path.module}/files/airflow.cfg")}"
-#  vars = {
-#    fernet_key = "${var.fernet_key}"
-#    db_url     = "${aws_db_instance.airflow-database.address}"
-#    db_pass    = "${aws_db_instance.airflow-database.password}"
-#  }
-#}
-
-
 resource "aws_instance" "airflow_instance" {
   key_name                    = "${var.key}"
   associate_public_ip_address = true
@@ -65,19 +31,6 @@ resource "aws_instance" "airflow_instance" {
     Name = "airflow"
   }
 
-  #provisioner "file" {
-  #  content     = "${data.template_file.airflow_config.rendered}"
-  #  destination = "/var/tmp/airflow.cfg"
-#
-  #  connection {
-  #    #type     = "ssh"
-  #    #host_key = "${var.key}"
-  #    private_key = file("C:/Users/john/.ssh/key-pair2.pem")
-  #    user     = "ec2-user"
-  #    host     = self.public_ip
-  #  }
-  #}
-
   user_data  = "${data.template_file.airflow_user_data.rendered}"
   depends_on = [
     aws_instance.airflow_instance,
@@ -85,6 +38,16 @@ resource "aws_instance" "airflow_instance" {
   ]
 }
 
+data "template_file" "airflow_user_data" {
+  template = "${file("${path.module}/userdata/userdata.sh")}"
+  vars = {
+    DB_ENDPOINT = aws_db_instance.airflow-database.endpoint
+    AWS_ID = "${var.AWS_ID}"
+    AWS_KEY = "${var.AWS_KEY}"
+    db_password = "${var.db_password}"
+    BEARER_TOKEN = "${var.bearer_token}"
+  }
+}
 
 resource "aws_db_instance" "airflow-database" {
   identifier                = "airflow-database"
