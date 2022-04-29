@@ -33,8 +33,9 @@ git config --global user.email "joaoluislins@gmail.com"
 git add .
 git commit -m "New linux git install commit"
 git remote add dev https://Joaoluislins:senhateste@github.com/Joaoluislins/algotrader-aws-airflow.git
+git remote update
 git fetch
-git checkout -m origin/main docker-compose.yaml 
+git checkout dev/dev docker-compose.yaml 
 
 echo "building airflow client"
 mkdir -p ./logs ./plugins ./outputs ./aws_twi_env
